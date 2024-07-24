@@ -6,15 +6,16 @@ const initialGameBoard = [
   [null, null, null],
 ];
 
-export default function GameBoard() {
+export default function GameBoard({currActivePlayer, activeSymbol}) {
     const [gameBoard, setGameBoard] = useState(initialGameBoard);
     
     function handleSelect(rowIndex, colIndex) {
         setGameBoard((prevGameBoard) => {
             const updatedGameBoard = [...prevGameBoard.map((innerArray) => [...innerArray])] //vanno copiati anche gli array interni
-            updatedGameBoard[rowIndex][colIndex] = 'X'
+            updatedGameBoard[rowIndex][colIndex] = activeSymbol
             return updatedGameBoard;
-        })
+        });
+        currActivePlayer();
     }
     
   return (
