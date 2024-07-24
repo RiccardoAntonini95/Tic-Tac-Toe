@@ -1,11 +1,14 @@
 import { useState } from "react";
 
-export default function Player({ name, symbol, isActivePlayer }) {
+export default function Player({ name, symbol, isActivePlayer, onChangeName }) {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(name)
 
   function handleEdit() {
     setIsEditing(isEditing => !isEditing);
+    if(isEditing){
+      onChangeName(symbol, playerName) //passo il nuovo nome al componente app solo quando clicco save
+    }
   };
 
   function handleChange(e) {
