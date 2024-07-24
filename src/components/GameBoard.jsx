@@ -1,22 +1,19 @@
-import { useState } from "react";
-
 const initialGameBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
 ];
 
-export default function GameBoard({currActivePlayer, activeSymbol}) {
-    const [gameBoard, setGameBoard] = useState(initialGameBoard);
-    
-    function handleSelect(rowIndex, colIndex) {
-        setGameBoard((prevGameBoard) => {
-            const updatedGameBoard = [...prevGameBoard.map((innerArray) => [...innerArray])] //vanno copiati anche gli array interni
-            updatedGameBoard[rowIndex][colIndex] = activeSymbol
-            return updatedGameBoard;
-        });
-        currActivePlayer();
-    }
+export default function GameBoard({currActivePlayer, turns}) {
+  //DERIVED STATE
+  let gameBoard = initialGameBoard;
+
+  for(const turn of turns){
+    const {square, player} = turn //destrutturo quello che mi arriva da app.jsx
+    const {row, col} = square //destrutturo square in row e col visto che era un oggetto
+
+    gameBoard[row][col] = player //assegno al board alle coordinate il simbolo del giocatore (player)
+  }
     
   return (
     <ol id="game-board">
@@ -25,7 +22,7 @@ export default function GameBoard({currActivePlayer, activeSymbol}) {
             <ol>
               {row.map((playerSymbol,colIndex) => (//poi le colonne
                   <li key={colIndex}>
-                    <button onClick={() => handleSelect(rowIndex, colIndex)}>{playerSymbol}</button>
+                    <button onClick={() => currActivePlayer(rowIndex, colIndex)}>{playerSymbol}</button>
                   </li>
                 ))}
             </ol>
